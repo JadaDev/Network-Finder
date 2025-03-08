@@ -339,14 +339,19 @@ Public Class Form1
             MessageBox.Show("No process selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return
         End If
+
         Dim startInfo As New ProcessStartInfo()
         startInfo.FileName = "cmd.exe"
         startInfo.Arguments = "/C taskkill /PID " & lastNumber & " /F"
         startInfo.WindowStyle = ProcessWindowStyle.Hidden
         Process.Start(startInfo)
+
         DataGridView2.Rows.Clear()
         MessageBox.Show("Process with PID " & lastNumber & " has been terminated", "Process Terminated", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Button1_Click(sender, e)
+
+        If DataGridView1.SelectedRows.Count > 0 Then
+            DataGridView1.Rows.Remove(DataGridView1.SelectedRows(0))
+        End If
     End Sub
     Private Sub DataGridView1_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DataGridView1.DataBindingComplete
         For Each row As DataGridViewRow In DataGridView1.Rows
